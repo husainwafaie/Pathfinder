@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shortest Path Visualizer</title>
     <style>
-        /* Reset default margins and ensure the body takes up the full viewport */
         body {
             margin: 0;
             background-color: black;
@@ -20,16 +19,15 @@
             font-size: 3em;
         }
 
-        /* Style for the input section */
         #input-section {
             display: flex;
             justify-content: center;
-            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            background-color: rgba(0, 0, 0, 0.7);
             margin-bottom: 15px;
             border-radius: 8px;
             gap: 15px;
             align-items: center;
-            z-index: 10; /* Ensure it stays above the SVG */
+            z-index: 10; /* to ensure it stays above the SVG */
         }
 
         #input-section label {
@@ -63,22 +61,20 @@
             background-color: #ddd;
         }
 
-        /* Full-screen SVG canvas */
         svg {
             width: 80vw;
             margin-left: 20vh;
             height: 80vh;
-            background-color: black; /* Black background for the SVG */
-            display: block; /* Remove any unexpected spacing */
+            background-color: black;
+            display: block;
         }
 
-        /* Style for the text inside dots */
         text {
             font-size: 12px;
             text-anchor: middle;
-            dominant-baseline: middle; /* Better vertical alignment */
-            fill: black; /* Contrast against white dots */
-            pointer-events: none; /* Allow clicks to pass through */
+            dominant-baseline: middle;
+            fill: black;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -94,6 +90,6 @@
         <!-- SVG lines and dots will be dynamically inserted here -->
     </svg>
 
-    <script src="../js/app.js"></script> <!-- Ensure the path is correct -->
+    <script src="../js/app.js"></script>
 </body>
 </html>

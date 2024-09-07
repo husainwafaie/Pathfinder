@@ -3,7 +3,7 @@ const dots = [];        // Array to store dot coordinates
 const adjList = {};     // Adjacency list to store edges
 const existingEdges = new Set(); // Set to track existing edges and prevent duplicates
 const repulsionForce = 20000;  // Force constant for repulsion between nodes
-const springForce = 0.01;      // Force constant for attraction of edges (like springs)
+const springForce = 0.01;      // Force constant for attraction of edges
 const maxIterations = 500;     // Maximum number of iterations for force-directed layout
 
 
