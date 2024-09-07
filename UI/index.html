@@ -5,43 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shortest Path Visualizer</title>
     <style>
-        /* Style for the dots (nodes) */
-        circle {
-            fill: blue;
-            stroke: black;
-            stroke-width: 2;
+        body {
+            margin: 0;
+            background-color: black;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
         }
-        /* Style for the lines (edges) */
-        line {
-            stroke: black;
-            stroke-width: 2;
+
+        h1 { 
+            color: white;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 3em;
         }
+
         #input-section {
-            position: absolute;
-            top: 10px;
-            left: 10px;
+            display: flex;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            margin-bottom: 15px;
+            border-radius: 8px;
+            gap: 15px;
+            align-items: center;
+            z-index: 10; /* to ensure it stays above the SVG */
         }
+
         #input-section label {
-            margin-right: 10px;
+            color: white;
+            font-size: 14px;
         }
+
+        #input-section input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid white;
+            border-radius: 4px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            font-size: 14px;
+        }
+
         #input-section button {
-            margin-left: 10px;
-            padding: 5px 10px;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: white;
+            color: black;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #input-section button:hover {
+            background-color: #ddd;
+        }
+
+        svg {
+            width: 80vw;
+            margin-left: 20vh;
+            height: 80vh;
+            background-color: black;
+            display: block;
+        }
+
+        text {
+            font-size: 12px;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            fill: black;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
-
-    <div id="input-section">
+    <h1>Pathfinder</h1>
+    <div id="input-section" style="text-align: center;">
         <label>Dot 1: <input type="number" id="dot1" min="1" max="75"></label>
         <label>Dot 2: <input type="number" id="dot2" min="1" max="75"></label>
         <button onclick="findPath()">Find Shortest Path</button>
     </div>
 
-    <svg id="canvas" width="800" height="800" style="border:1px solid black">
-        <!-- SVG lines connecting the dots will go here -->
+    <svg id="canvas">
+        <!-- SVG lines and dots will be dynamically inserted here -->
     </svg>
-    <script src="../js/app.js"></script>
 
+    <script src="../js/app.js"></script>
 </body>
 </html>
