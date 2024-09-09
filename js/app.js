@@ -175,7 +175,6 @@ function drawGraph() {
     while (canvas.firstChild) {
         canvas.removeChild(canvas.firstChild);
     }
-
     // Step 1: Draw the dots (nodes) with animation
     let dotPromises = [];
     for (let i = 0; i < dots.length; i++) {
@@ -192,13 +191,22 @@ function drawGraph() {
 
                 // Add click event listener to turn the dot red when clicked
                 dot.addEventListener("click", function() {
+                    if (clicked.length === 2) {
+                        //clicked.forEach(dot => dot.setAttribute('fill', 'white'));
+                        clicked.length = 0;
+                        const lines = canvas.querySelectorAll('line');
+                        lines.forEach(line => line.setAttribute('stroke', 'white'));
+                        const dots = document.querySelectorAll('circle');  // Select all dot elements
+                        dots.forEach(dot => {
+                            dot.setAttribute("fill", "white");  // Reset each dot's color to white
+                        });
+                    }
                     dot.setAttribute("fill", "red");  // Turn the clicked dot red
                     clicked.push(dot);
                     if (clicked.length === 2) {
                         const dotNumber1 = clicked[0].getAttribute("data-number");
                         const dotNumber2 = clicked[1].getAttribute("data-number");
                         findPath(dotNumber1, dotNumber2);
-                        clicked.length = 0;  // Reset clicked array
                     }
                 });
 
@@ -287,7 +295,13 @@ function findPath(dot1, dot2) {
         }
     } else {
         alert('No path found between these two dots');
-        clicked = [];
+        clicked.length = 0;
+        const lines = canvas.querySelectorAll('line');
+        lines.forEach(line => line.setAttribute('stroke', 'white'));
+        const dots = document.querySelectorAll('circle');  // Select all dot elements
+        dots.forEach(dot => {
+            dot.setAttribute("fill", "white");  // Reset each dot's color to white
+        });
     }
 }
 
