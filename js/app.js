@@ -287,6 +287,7 @@ function findPath(dot1, dot2) {
         }
     } else {
         alert('No path found between these two dots');
+        clicked = [];
     }
 }
 
