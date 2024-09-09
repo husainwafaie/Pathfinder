@@ -12,6 +12,24 @@
             font-family: Arial, sans-serif;
         }
 
+        .typing-effect {
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .1em solid #ffffff;
+            animation: typing 1s steps(180, end) forwards,
+            blink-caret 0.7s infinite step-end alternate;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 6.1em; } 
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #ffffff; }
+        }
+
         h1 { 
             color: white;
             text-align: center;
@@ -76,14 +94,54 @@
             fill: black;
             pointer-events: none;
         }
+
+        /* CSS for dots animation */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        circle {
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        circle.animate {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* CSS for line drawing animation */
+        @keyframes drawLine {
+            from {
+                stroke-dashoffset: 100%;
+            }
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        line {
+            stroke-dasharray: 100%;
+            stroke-dashoffset: 100%;
+            animation: drawLine 1s forwards ease-out;
+        }
+
+
+
+
     </style>
 </head>
 <body>
-    <h1>Pathfinder</h1>
-    <div id="input-section" style="text-align: center;">
-        <label>Dot 1: <input type="number" id="dot1" min="1" max="75"></label>
-        <label>Dot 2: <input type="number" id="dot2" min="1" max="75"></label>
-        <button onclick="findPath()">Find Shortest Path</button>
+    <div style="display: flex; justify-content: center;">
+        <h1 class="typing-effect">Pathfinder</h1>
     </div>
 
     <svg id="canvas">
