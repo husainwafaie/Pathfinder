@@ -1,5 +1,7 @@
 const canvas = document.getElementById('canvas');
 const dots = [];        // Array to store dot coordinates
+const ids = {};         // Hash Map to store dot number
+const clicked = [];     // Array to store clicked dots
 const adjList = {};     // Adjacency list to store edges
 const existingEdges = new Set(); // Set to track existing edges and prevent duplicates
 const repulsionForce = 20000;  // Force constant for repulsion between nodes
@@ -174,45 +176,75 @@ function drawGraph() {
         canvas.removeChild(canvas.firstChild);
     }
 
-    // Draw the edges (lines)
-    for (let node1 in adjList) {
-        for (let node2 of adjList[node1]) {
-            const { x: x1, y: y1 } = dots[node1 - 1];
-            const { x: x2, y: y2 } = dots[node2 - 1];
-            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-            line.setAttribute("x1", x1);
-            line.setAttribute("y1", y1);
-            line.setAttribute("x2", x2);
-            line.setAttribute("y2", y2);
-            line.setAttribute("stroke", "white");
-            line.setAttribute("stroke-width", "10");
-            line.setAttribute("data-node1", node1);
-            line.setAttribute("data-node2", node2);
-            canvas.appendChild(line);
-        }
-    }
-
+    // Step 1: Draw the dots (nodes) with animation
+    let dotPromises = [];
     for (let i = 0; i < dots.length; i++) {
-        const { x, y } = dots[i];
+        dotPromises.push(new Promise(resolve => {
+            setTimeout(() => {
+                const { x, y } = dots[i];
 
-        const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        dot.setAttribute("cx", x);
-        dot.setAttribute("cy", y);
-        dot.setAttribute("r", 21);
-        dot.setAttribute("fill", "white");
-        canvas.appendChild(dot);
+                const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                dot.setAttribute("cx", x);
+                dot.setAttribute("cy", y);
+                dot.setAttribute("r", 21);
+                dot.setAttribute("fill", "white");
+                dot.setAttribute("data-number", i + 1);
 
-        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        text.setAttribute("x", x);
-        text.setAttribute("y", y + 5);
-        text.setAttribute("font-size", "12");
-        text.setAttribute("text-anchor", "middle");
-        text.setAttribute("dominant-baseline", "middle");
-        text.setAttribute("fill", "black");
-        text.textContent = i + 1;
-        canvas.appendChild(text);
+                // Add click event listener to turn the dot red when clicked
+                dot.addEventListener("click", function() {
+                    dot.setAttribute("fill", "red");  // Turn the clicked dot red
+                    clicked.push(dot);
+                    if (clicked.length === 2) {
+                        const dotNumber1 = clicked[0].getAttribute("data-number");
+                        const dotNumber2 = clicked[1].getAttribute("data-number");
+                        findPath(dotNumber1, dotNumber2);
+                        clicked.length = 0;  // Reset clicked array
+                    }
+                });
+
+                canvas.appendChild(dot);
+
+                // Apply animation to make the dots gradually appear
+                dot.classList.add('animate');
+
+                resolve();  // Resolve the promise after the dot is added
+            }, 20 * i);  // Delay each dot by 100ms
+        }));
     }
+
+    // Step 2: After all dots have appeared, start animating the lines
+    Promise.all(dotPromises).then(() => {
+        // Delay before starting the lines animation
+        let lineDelay = 100;
+
+        for (let node1 in adjList) {
+            for (let node2 of adjList[node1]) {
+                setTimeout(() => {
+                    const { x: x1, y: y1 } = dots[node1 - 1];
+                    const { x: x2, y: y2 } = dots[node2 - 1];
+
+                    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    line.setAttribute("x1", x1);
+                    line.setAttribute("y1", y1);
+                    line.setAttribute("x2", x2);
+                    line.setAttribute("y2", y2);
+                    line.setAttribute("stroke", "white");
+                    line.setAttribute("stroke-width", "2");
+                    line.setAttribute("data-node1", node1);
+                    line.setAttribute("data-node2", node2);
+
+                    canvas.appendChild(line);
+
+                    // Animate the line drawing
+                    line.style.animation = 'drawLine 1s ease-out forwards';
+                }, lineDelay);
+
+                lineDelay += 20;  // Stagger the lines with a delay of 200ms between each
+            }
+        }
+    });
 }
+
 
 // Initialize the graph with dots, edges, and layout simulation
 function initializeGraph() {
@@ -223,10 +255,13 @@ function initializeGraph() {
 }
 
 // Find the shortest path using BFS and highlight the path
-function findPath() {
-    const dot1 = parseInt(document.getElementById('dot1').value);
-    const dot2 = parseInt(document.getElementById('dot2').value);
-
+function findPath(dot1, dot2) {
+    //const dot1 = parseInt(document.getElementById('dot1').value);
+    //const dot2 = parseInt(document.getElementById('dot2').value);
+    dot1 = parseInt(dot1);
+    dot2 = parseInt(dot2);
+    console.log(dot1);
+    console.log(dot2);
     const path = bfs(dot1, dot2);
 
     if (path) {

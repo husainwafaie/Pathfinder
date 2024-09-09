@@ -12,6 +12,37 @@
             font-family: Arial, sans-serif;
         }
 
+        .typing-effect {
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .1em solid #ffffff;
+            animation: typing 1s steps(180, end) forwards,
+            blink-caret 0.7s infinite step-end alternate;
+        }
+
+        .typing-effect2 {
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .1em solid #ffffff;
+            animation: typing2 1s steps(180, end) forwards,
+            blink-caret 0.7s infinite step-end alternate;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 6.1em; } 
+        }
+
+        @keyframes typing2 {
+            from { width: 0; }
+            to { width: 36em; } 
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #ffffff; }
+        }
+
         h1 { 
             color: white;
             text-align: center;
@@ -19,47 +50,13 @@
             font-size: 3em;
         }
 
-        #input-section {
-            display: flex;
-            justify-content: center;
-            background-color: rgba(0, 0, 0, 0.7);
-            margin-bottom: 15px;
-            border-radius: 8px;
-            gap: 15px;
-            align-items: center;
-            z-index: 10; /* to ensure it stays above the SVG */
-        }
-
-        #input-section label {
-            color: white;
-            font-size: 14px;
-        }
-
-        #input-section input {
-            width: 60px;
-            padding: 5px;
-            border: 1px solid white;
-            border-radius: 4px;
-            background-color: #333;
+        h2 {
             color: white;
             text-align: center;
-            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.5em;
         }
 
-        #input-section button {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            background-color: white;
-            color: black;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        #input-section button:hover {
-            background-color: #ddd;
-        }
 
         svg {
             width: 80vw;
@@ -72,18 +69,60 @@
         text {
             font-size: 12px;
             text-anchor: middle;
-            dominant-baseline: middle;
             fill: black;
             pointer-events: none;
         }
+
+        /* CSS for dots animation */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        circle {
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        circle.animate {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* CSS for line drawing animation */
+        @keyframes drawLine {
+            from {
+                stroke-dashoffset: 100%;
+            }
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        line {
+            stroke-dasharray: 100%;
+            stroke-dashoffset: 100%;
+            animation: drawLine 1s forwards ease-out;
+        }
+
+
+
+
     </style>
 </head>
 <body>
-    <h1>Pathfinder</h1>
-    <div id="input-section" style="text-align: center;">
-        <label>Dot 1: <input type="number" id="dot1" min="1" max="75"></label>
-        <label>Dot 2: <input type="number" id="dot2" min="1" max="75"></label>
-        <button onclick="findPath()">Find Shortest Path</button>
+    <div style="display: flex; justify-content: center; margin-bottom: 0px;">
+        <h1 class="typing-effect" style="margin-bottom: 0px;">Pathfinder</h1>
+    </div>
+    <div style="display: flex; justify-content: center;">
+        <h2 class="typing-effect2" style="margin-bottom: 3px;">Click on any 2 nodes to find the shortest path between them!</h2>
     </div>
 
     <svg id="canvas">
