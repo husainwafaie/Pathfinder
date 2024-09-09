@@ -192,16 +192,15 @@ function drawGraph() {
                 // Add click event listener to turn the dot red when clicked
                 dot.addEventListener("click", function() {
                     if (clicked.length === 2) {
-                        //clicked.forEach(dot => dot.setAttribute('fill', 'white'));
                         clicked.length = 0;
                         const lines = canvas.querySelectorAll('line');
                         lines.forEach(line => line.setAttribute('stroke', 'white'));
-                        const dots = document.querySelectorAll('circle');  // Select all dot elements
+                        const dots = document.querySelectorAll('circle');  
                         dots.forEach(dot => {
-                            dot.setAttribute("fill", "white");  // Reset each dot's color to white
+                            dot.setAttribute("fill", "white");  
                         });
                     }
-                    dot.setAttribute("fill", "red");  // Turn the clicked dot red
+                    dot.setAttribute("fill", "red"); 
                     clicked.push(dot);
                     if (clicked.length === 2) {
                         const dotNumber1 = clicked[0].getAttribute("data-number");
@@ -211,18 +210,15 @@ function drawGraph() {
                 });
 
                 canvas.appendChild(dot);
-
-                // Apply animation to make the dots gradually appear
                 dot.classList.add('animate');
 
-                resolve();  // Resolve the promise after the dot is added
-            }, 20 * i);  // Delay each dot by 100ms
+                resolve(); 
+            }, 20 * i); 
         }));
     }
 
     // Step 2: After all dots have appeared, start animating the lines
     Promise.all(dotPromises).then(() => {
-        // Delay before starting the lines animation
         let lineDelay = 100;
 
         for (let node1 in adjList) {
@@ -243,11 +239,10 @@ function drawGraph() {
 
                     canvas.appendChild(line);
 
-                    // Animate the line drawing
                     line.style.animation = 'drawLine 1s ease-out forwards';
                 }, lineDelay);
 
-                lineDelay += 20;  // Stagger the lines with a delay of 200ms between each
+                lineDelay += 20;
             }
         }
     });
@@ -264,8 +259,6 @@ function initializeGraph() {
 
 // Find the shortest path using BFS and highlight the path
 function findPath(dot1, dot2) {
-    //const dot1 = parseInt(document.getElementById('dot1').value);
-    //const dot2 = parseInt(document.getElementById('dot2').value);
     dot1 = parseInt(dot1);
     dot2 = parseInt(dot2);
     console.log(dot1);
@@ -274,7 +267,7 @@ function findPath(dot1, dot2) {
 
     if (path) {
         const lines = canvas.querySelectorAll('line');
-        lines.forEach(line => line.setAttribute('stroke', 'white'));  // Reset line colors
+        lines.forEach(line => line.setAttribute('stroke', 'white')); 
 
         for (let i = 0; i < path.length - 1; i++) {
             const node1 = path[i];
@@ -298,9 +291,9 @@ function findPath(dot1, dot2) {
         clicked.length = 0;
         const lines = canvas.querySelectorAll('line');
         lines.forEach(line => line.setAttribute('stroke', 'white'));
-        const dots = document.querySelectorAll('circle');  // Select all dot elements
+        const dots = document.querySelectorAll('circle'); 
         dots.forEach(dot => {
-            dot.setAttribute("fill", "white");  // Reset each dot's color to white
+            dot.setAttribute("fill", "white");
         });
     }
 }
