@@ -97,6 +97,15 @@
         }
 
         /* CSS for line drawing animation */
+        @keyframes drawRedStroke {
+            from {
+                stroke-dashoffset: 100%;
+            }
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
         @keyframes drawLine {
             from {
                 stroke-dashoffset: 100%;
@@ -107,10 +116,20 @@
         }
 
         line {
-            stroke-dasharray: 100%;
-            stroke-dashoffset: 100%;
+            stroke: white;
+            stroke-dasharray: 100%; /* Full length of the line */
+            stroke-dashoffset: 100%; /* Initially offset the entire length */
+            transition: stroke 0.5s ease; /* Optional: for color change when needed */
             animation: drawLine 1s forwards ease-out;
         }
+
+        line.animate-red {
+            stroke: red;
+            stroke-dasharray: 100%; /* Full length of the line */
+            stroke-dashoffset: 0; /* Animate the stroke along the line */
+            animation: drawRedStroke 1s forwards ease-out;
+        }
+
 
 
 

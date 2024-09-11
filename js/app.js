@@ -194,7 +194,7 @@ function drawGraph() {
                     if (clicked.length === 2) {
                         clicked.length = 0;
                         const lines = canvas.querySelectorAll('line');
-                        lines.forEach(line => line.setAttribute('stroke', 'white'));
+                        lines.forEach(line => line.classList.remove('animate-red'));
                         const dots = document.querySelectorAll('circle');  
                         dots.forEach(dot => {
                             dot.setAttribute("fill", "white");  
@@ -261,36 +261,40 @@ function initializeGraph() {
 function findPath(dot1, dot2) {
     dot1 = parseInt(dot1);
     dot2 = parseInt(dot2);
-    console.log(dot1);
-    console.log(dot2);
     const path = bfs(dot1, dot2);
 
     if (path) {
         const lines = canvas.querySelectorAll('line');
-        lines.forEach(line => line.setAttribute('stroke', 'white')); 
+        lines.forEach(line => line.classList.remove('animate-red'));
+
+        let delay = 0;  // Initial delay
+        const delayBetweenLines = 500;  // Delay between each line starting to animate
 
         for (let i = 0; i < path.length - 1; i++) {
             const node1 = path[i];
             const node2 = path[i + 1];
 
-            lines.forEach(line => {
-                const lineNode1 = parseInt(line.getAttribute('data-node1'));
-                const lineNode2 = parseInt(line.getAttribute('data-node2'));
+            setTimeout(() => {
+                lines.forEach(line => {
+                    const lineNode1 = parseInt(line.getAttribute('data-node1'));
+                    const lineNode2 = parseInt(line.getAttribute('data-node2'));
 
-                if (
-                    (lineNode1 === node1 && lineNode2 === node2) ||
-                    (lineNode1 === node2 && lineNode2 === node1)
-                ) {
-                    console.log("here");
-                    line.setAttribute("stroke", "red");
-                }
-            });
+                    if (
+                        (lineNode1 === node1 && lineNode2 === node2) ||
+                        (lineNode1 === node2 && lineNode2 === node1)
+                    ) {
+                        line.classList.add('animate-red');  // Apply the animation class to the line
+                    }
+                });
+            }, delay);
+
+            delay += delayBetweenLines;  // Increment delay for the next line
         }
     } else {
         alert('No path found between these two dots');
         clicked.length = 0;
         const lines = canvas.querySelectorAll('line');
-        lines.forEach(line => line.setAttribute('stroke', 'white'));
+        lines.forEach(line => line.classList.remove('animate-red'));
         const dots = document.querySelectorAll('circle'); 
         dots.forEach(dot => {
             dot.setAttribute("fill", "white");
